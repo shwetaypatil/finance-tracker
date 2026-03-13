@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Financial Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+            line-height: 1; 
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "success": "#50E3C2",
+              "warning": "#F5A623",
+              "text-light-primary": "#4A4A4A",
+              "text-dark-primary": "#E0E0E0",
+              "text-light-secondary": "#9B9B9B",
+              "text-dark-secondary": "#A0A0A0",
+              "card-light": "#FFFFFF",
+              "card-dark": "#1A2836",
+              "border-light": "#EAEFF4",
+              "border-dark": "#2C3A47"
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark p-4">
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 p-2">
+<span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+<h1 class="text-xl font-bold">Finance Tracker</h1>
+</div>
+<div class="flex flex-col gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 mx-auto" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-S79MRotLsuW0fF7uRPU6J1LMSN_j3Uv6pMdkrUh8ELgQxEzEd8NOTV8MST_wmbknznHAk0lkEBu917SJENoqwa_m3_9EdXLJzOoCmRR_H8bE453g-IoK81WZDxB35lu-4Prl17Xn7Bne9700rIFaZnrbDhUV-RjhpDg65R7cGAzWq2l1tVs6msTT0_TiZX9TlLP3avsl53i98nrBgcH4j9VFTP4-3Q8YjpFWbpcf0jpET-KKsLKxYCxuPYSPNTJQrBmG3RcNfw");'></div>
+<div class="flex flex-col text-center">
+<h2 class="text-base font-medium">{{current_user.username}}</h2>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">{{current_user.email}}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="/dashboard">
+<span class="material-symbols-outlined fill">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" href="/transactions">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-sm font-medium">Transactions</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" href="/budget">
+<span class="material-symbols-outlined">donut_small</span>
+<p class="text-sm font-medium">Budgets</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" href="/report">
+<span class="material-symbols-outlined">assessment</span>
+<p class="text-sm font-medium">Reports</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/profile">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">person</span>
+<p class="text-sm font-medium leading-normal">Profile</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" href="/settings">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium">Help</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8">
+<div class="flex flex-col gap-8">
+<!-- PageHeading & Quick Actions -->
+<header class="flex flex-wrap justify-between items-center gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl font-bold">Greetings to you, {{current_user.username}}!</h1>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-base">Here's a summary of your financial health for this month.</p>
+</div>
+<div class="flex flex-wrap gap-3">
+<a href="/addtransaction?type=expense">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+<span class="truncate">Add Expense</span>
+</button>
+</a>
+<a href="/addtransaction?type=income">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+<span class="truncate">Add Income</span>
+</button>
+</a>
+</div>
+</header>
+<!-- Stats Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Total Income -->
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary">Total Income</p>
+<span class="material-symbols-outlined text-green-500">trending_up</span>
+</div>
+<p id="totalIncome" class="tracking-tight text-3xl font-bold">₹5,450.00</p>
+<p class="text-green-500 text-sm font-medium">+5.2% vs last month</p>
+</div>
+<!-- Total Expense -->
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary">Total Expense</p>
+<span class="material-symbols-outlined text-warning">trending_down</span>
+</div>
+<p id="totalExpense" class="tracking-tight text-3xl font-bold">₹2,130.00</p>
+<p class="text-red-500 text-sm font-medium">+8.1% vs last month</p>
+</div>
+<!-- Current Balance -->
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary">Current Balance</p>
+<span class="material-symbols-outlined text-primary">account_balance</span>
+</div>
+<p id="currentBalance" class="tracking-tight text-3xl font-bold">₹3,320.00</p>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">As of today</p>
+</div>
+<!-- Budget Usage -->
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark">
+<div class="flex gap-2 justify-between items-baseline">
+<p class="text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary">Budget Usage</p>
+<p id="spendingPercent" class="text-base font-bold">65%</p>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5">
+<div id="spendingBar" class="bg-primary h-2.5 rounded-full" style="width: 65%"></div>
+</div>
+<p id="monthlyBudget" class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium text-center">₹1300 / ₹2000 spent</p>
+</div>
+</section>
+<!-- Charts -->
+<section class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+<!-- Bar Chart -->
+<div class="lg:col-span-3 flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark p-6 bg-card-light dark:bg-card-dark">
+<p class="text-lg font-semibold">Monthly Financial Overview</p>
+<div class="relative h-[300px]">
+    <canvas id="monthlyChart"></canvas>
+</div>
+<!-- <div id="monthlyChart" class="grid min-h-[250px] grid-flow-col gap-6 grid-rows-[1fr_auto] items-end justify-items-center">
+<div class="w-full flex items-end gap-1.5"><div class="w-1/2 bg-success rounded-t-sm" style="height: 60%;"></div><div class="w-1/2 bg-warning rounded-t-sm" style="height: 30%;"></div></div>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">May</p>
+<div class="w-full flex items-end gap-1.5"><div class="w-1/2 bg-success rounded-t-sm" style="height: 50%;"></div><div class="w-1/2 bg-warning rounded-t-sm" style="height: 25%;"></div></div>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Jun</p>
+<div class="w-full flex items-end gap-1.5"><div class="w-1/2 bg-success rounded-t-sm" style="height: 80%;"></div><div class="w-1/2 bg-warning rounded-t-sm" style="height: 40%;"></div></div>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Jul</p>
+<div class="w-full flex items-end gap-1.5"><div class="w-1/2 bg-success rounded-t-sm" style="height: 70%;"></div><div class="w-1/2 bg-warning rounded-t-sm" style="height: 50%;"></div></div>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Aug</p>
+<div class="w-full flex items-end gap-1.5"><div class="w-1/2 bg-success rounded-t-sm" style="height: 90%;"></div><div class="w-1/2 bg-warning rounded-t-sm" style="height: 60%;"></div></div>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium">Sep</p>
+<div class="w-full flex items-end gap-1.5"><div class="w-1/2 bg-primary/20 rounded-t-sm" style="height: 95%;"></div><div class="w-1/2 bg-primary rounded-t-sm" style="height: 65%;"></div></div>
+<p class="text-primary text-sm font-bold">Oct</p>
+</div> -->
+</div>
+<!-- Pie Chart -->
+<div class="lg:col-span-2 flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark p-6 bg-card-light dark:bg-card-dark">
+<p class="text-lg font-semibold">Expense Categories</p>
+<div class="flex justify-center items-center my-4">
+<!-- <div class="relative size-40 rounded-full" style="background: conic-gradient(#F5A623 0% 35%, #8B5CF6 35% 60%, #34D399 60% 80%, #60A5FA 80% 90%, #FBBF24 90% 100%);"> -->
+<div class="relative size-40">
+<canvas id="categoryChart" class="size-40"></canvas>
+<div class="absolute inset-2 bg-card-light dark:bg-card-dark rounded-full flex flex-col items-center justify-center">
+<span class="text-xs text-text-light-secondary dark:text-text-dark-secondary">Total</span>
+<span id="categoryTotal" class="text-xl font-bold">0</span>
+</div>
+</div>
+<!-- </div> -->
+</div>
+<div id="categoryLegend" class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm"></div>
+</div>
+</section>
+<!-- Recent Transactions -->
+<section class="flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark p-6 bg-card-light dark:bg-card-dark">
+<div id="recentTransactions" class="flex justify-between items-center">
+<h3 class="text-lg font-semibold">Recent Transactions</h3>
+<a href="/transactions" class="text-sm font-medium text-primary hover:underline">View All</a>
+</div>
+<div class="flow-root">
+<div class="-mx-6 -my-2 overflow-x-auto">
+<div class="inline-block min-w-full py-2 align-middle sm:px-6">
+<table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
+<thead>
+<tr>
+<th class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold" scope="col">Title / Category</th>
+<th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Amount</th>
+<th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Date</th>
+<th class="px-3 py-3.5 text-left text-sm font-semibold" scope="col">Type</th>
+</tr>
+</thead>
+<tbody id="recentTransactionsBody" class="divide-y divide-border-light dark:divide-border-dark">
+<tr>
+<td class="whitespace-nowrap py-4 pl-6 pr-3 text-sm">
+<div class="font-medium">Spotify Subscription</div>
+<div class="text-text-light-secondary dark:text-text-dark-secondary">Entertainment</div>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm font-medium">-₹10.99</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-text-light-secondary dark:text-text-dark-secondary">Oct 28, 2023</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm">
+<span class="inline-flex items-center rounded-full bg-warning/10 px-2 py-1 text-xs font-medium text-warning">Expense</span>
+</td>
+</tr>
+<tr>
+<td class="whitespace-nowrap py-4 pl-6 pr-3 text-sm">
+<div class="font-medium">Monthly Salary</div>
+<div class="text-text-light-secondary dark:text-text-dark-secondary">Work</div>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-green-500">+₹2,500.00</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-text-light-secondary dark:text-text-dark-secondary">Oct 27, 2023</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm">
+<span class="inline-flex items-center rounded-full bg-success/10 px-2 py-1 text-xs font-medium text-success">Income</span>
+</td>
+</tr>
+<tr>
+<td class="whitespace-nowrap py-4 pl-6 pr-3 text-sm">
+<div class="font-medium">Grocery Shopping</div>
+<div class="text-text-light-secondary dark:text-text-dark-secondary">Food</div>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm font-medium">-₹75.40</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-text-light-secondary dark:text-text-dark-secondary">Oct 26, 2023</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm">
+<span class="inline-flex items-center rounded-full bg-warning/10 px-2 py-1 text-xs font-medium text-warning">Expense</span>
+</td>
+</tr>
+<tr>
+<td class="whitespace-nowrap py-4 pl-6 pr-3 text-sm">
+<div class="font-medium">Utility Bill</div>
+<div class="text-text-light-secondary dark:text-text-dark-secondary">Bills</div>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm font-medium">-₹120.00</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-text-light-secondary dark:text-text-dark-secondary">Oct 25, 2023</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm">
+<span class="inline-flex items-center rounded-full bg-warning/10 px-2 py-1 text-xs font-medium text-warning">Expense</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+
+
+<script>
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/langauge.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script>
+    translatePage();
+</script>
+
+</body></html>

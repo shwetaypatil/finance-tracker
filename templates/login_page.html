@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="font-display">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-200">
+<div class="flex w-full max-w-md flex-col gap-6 p-6">
+<div class="flex flex-col items-center justify-center gap-4">
+<div class="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+<span class="material-symbols-outlined text-3xl text-primary">
+                        hub
+                    </span>
+</div>
+<h1 class="text-[#0d141b] dark:text-slate-50 text-3xl font-bold tracking-tight text-center">Login to your account</h1>
+</div>
+<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-4">
+<label class="flex flex-col w-full">
+<p class="text-base font-medium pb-2">Email address</p>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-[#4c739a] dark:text-slate-400">mail</span>
+<input id="email" class="form-input flex w-full flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-background-dark h-14 placeholder:text-[#4c739a] dark:placeholder:text-slate-500 py-[15px] pl-12 pr-[15px] text-base font-normal focus:border-primary focus:outline-0 focus:ring-0" placeholder="you@example.com" type="email" value=""/>
+</div>
+</label>
+<label class="flex flex-col w-full">
+<p class="text-base font-medium pb-2">Password</p>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-[#4c739a] dark:text-slate-400">lock</span>
+<input id="password" class="form-input flex w-full flex-1 resize-none overflow-hidden rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-background-dark h-14 placeholder:text-[#4c739a] dark:placeholder:text-slate-500 py-[15px] pl-12 pr-12 text-base font-normal focus:border-primary focus:outline-0 focus:ring-0" placeholder="Enter your password" type="password" value=""/>
+<button id="toggleLoginPassword" class="absolute right-4 text-[#4c739a] dark:text-slate-400" type="button" aria-label="Toggle password visibility">
+<span class="material-symbols-outlined" data-icon>visibility</span>
+</button>
+</div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input class="h-5 w-5 rounded border-2 border-[#cfdbe7] dark:border-slate-600 bg-transparent text-primary checked:border-primary checked:bg-primary focus:border-primary focus:ring-0 focus:ring-offset-0" id="remember-me" type="checkbox"/>
+<label class="text-base font-normal" for="remember-me">Remember me</label>
+</div>
+<a class="text-base font-medium text-primary hover:underline" href="#">Forgot password?</a>
+</div>
+<div class="flex flex-col gap-4">
+<button id="loginBtn" class="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-semibold text-white transition-colors hover:bg-primary/90">Log In</button>
+<button class="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-[#cfdbe7] dark:border-slate-700 bg-background-light dark:bg-background-dark px-6 text-base font-semibold transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+<svg class="h-5 w-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_159_949)"><path d="M22.0001 12.1555C22.0001 11.3183 21.9287 10.5186 21.7865 9.75781H12.2158V14.288H17.7667C17.5192 15.6946 16.7845 16.9234 15.6888 17.7548V20.5051H19.5303C21.1121 19.0881 22.0001 16.8927 22.0001 14.1555V12.1555Z" fill="#4285F4"></path><path d="M12.2158 22C14.7749 22 16.9234 21.1628 18.5303 19.7548L15.6888 17.7548C14.8265 18.3183 13.6227 18.6631 12.2158 18.6631C9.65673 18.6631 7.48316 16.936 6.64591 14.6H2.67871V16.6364C4.30794 19.8631 7.96269 22 12.2158 22Z" fill="#34A853"></path><path d="M6.64585 14.6C6.39839 13.8392 6.25621 13.027 6.25621 12.2C6.25621 11.373 6.39839 10.5608 6.64585 9.8L2.67865 6.76364C2.01269 8.1702 1.66797 9.75783 1.66797 11.4C1.66797 13.0422 2.01269 14.6298 2.67865 16.0364L6.64585 14.6Z" fill="#FBBC05"></path><path d="M12.2158 5.73686C13.4445 5.73686 14.5152 6.15547 15.3524 6.94218L18.5932 3.7C16.911 2.14218 14.7749 1.2 12.2158 1.2C7.96269 1.2 4.30794 3.53686 2.67871 6.76365L6.64591 9.8C7.48316 7.46314 9.65673 5.73686 12.2158 5.73686Z" fill="#EA4335"></path></g><defs><clippath id="clip0_159_949"><rect fill="white" height="20.8" transform="translate(1.66797 1.2)" width="20.3322"></rect></clippath></defs></svg>
+<span>Sign in with Google</span>
+</button>
+</div>
+</div>
+<p class="text-center text-base">Don't have an account? <a class="font-medium text-primary hover:underline" href="/signup">Create one</a></p>
+</div>
+</div>
+
+<script>
+const loginPasswordInput = document.getElementById("password");
+const loginToggleBtn = document.getElementById("toggleLoginPassword");
+const loginToggleIcon = loginToggleBtn?.querySelector("[data-icon]");
+
+if (loginPasswordInput && loginToggleBtn && loginToggleIcon) {
+    loginToggleBtn.addEventListener("click", () => {
+        const isHidden = loginPasswordInput.type === "password";
+        loginPasswordInput.type = isHidden ? "text" : "password";
+        loginToggleIcon.textContent = isHidden ? "visibility_off" : "visibility";
+    });
+}
+
+document.getElementById("loginBtn").addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    try {
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",   // ⭐ IMPORTANT
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+    try {
+        const prefsRes = await fetch("/api/settings/preferences", { credentials: "include" });
+        if (prefsRes.ok) {
+            const prefs = await prefsRes.json();
+            if (prefs.theme) localStorage.setItem("theme", prefs.theme);
+            if (prefs.language) localStorage.setItem("language", prefs.language);
+        }
+    } catch (err) {
+        console.error("Failed to load preferences:", err);
+    }
+    window.location.href = "/dashboard";
+} else {
+    alert(data.msg);
+}
+    } catch (err) {
+        console.error(err);
+        alert("Server error");
+    }
+});
+</script>
+
+
+</body>
+
+</html>
+

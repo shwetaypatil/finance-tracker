@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add New Transaction</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings:
+            'FILL' 1
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "expense-light": "#E57373",
+              "income-light": "#81C784",
+              "card-light": "#ffffff",
+              "card-dark": "#182431",
+              "text-light": "#0d141b",
+              "text-dark": "#f0f4f8",
+              "subtext-light": "#4c739a",
+              "subtext-dark": "#94a3b8",
+              "border-light": "#cfdbe7",
+              "border-dark": "#334155",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark p-4">
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 p-2">
+<span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+<h1 class="text-xl font-bold">Finance Tracker</h1>
+</div>
+<div class="flex flex-col gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 mx-auto" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-S79MRotLsuW0fF7uRPU6J1LMSN_j3Uv6pMdkrUh8ELgQxEzEd8NOTV8MST_wmbknznHAk0lkEBu917SJENoqwa_m3_9EdXLJzOoCmRR_H8bE453g-IoK81WZDxB35lu-4Prl17Xn7Bne9700rIFaZnrbDhUV-RjhpDg65R7cGAzWq2l1tVs6msTT0_TiZX9TlLP3avsl53i98nrBgcH4j9VFTP4-3Q8YjpFWbpcf0jpET-KKsLKxYCxuPYSPNTJQrBmG3RcNfw");'></div>
+<div class="flex flex-col text-center">
+<h2 class="text-base font-medium">{{current_user.username}}</h2>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">{{current_user.email}}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg bg-primary/20 px-3 py-2 text-primary dark:bg-primary/30" href="/transactions">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-sm font-medium">Transactions</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/budget">
+<span class="material-symbols-outlined">donut_small</span>
+<p class="text-sm font-medium">Budgets</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/report">
+<span class="material-symbols-outlined">assessment</span>
+<p class="text-sm font-medium">Reports</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/profile">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">person</span>
+<p class="text-sm font-medium leading-normal">Profile</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/settings">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium">Help</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-5xl mx-auto">
+<!-- PageHeading -->
+<div class="mb-8 flex items-center justify-between gap-4">
+<h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Add New Transaction</h1>
+<a class="flex items-center gap-2 text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="/transactions">
+<span class="material-symbols-outlined">arrow_back</span>
+                        Back to Transactions
+                    </a>
+</div>
+<!-- Form Container -->
+<div class="bg-white dark:bg-card-dark rounded-xl shadow-sm p-8 border border-transparent dark:border-border-dark" id="transaction-form">
+<form class="flex flex-col gap-6">
+<!-- SegmentedButtons for Transaction Type -->
+<div>
+<p class="text-sm font-medium leading-normal pb-2 text-text-light dark:text-text-dark">Transaction Type</p>
+<div class="flex h-12 items-center justify-center rounded-lg bg-background-light dark:bg-background-dark p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-card-dark has-[:checked]:shadow-sm has-[:checked]:text-expense-light text-subtext-light dark:text-subtext-dark text-sm font-medium leading-normal transition-colors">
+<span class="truncate">Expense</span>
+<input id="expenseRadio" checked="" class="invisible w-0" name="transaction_type" onchange="document.getElementById('transaction-form').classList.remove('border-income-light'); document.getElementById('transaction-form').classList.add('border-expense-light');" type="radio" value="Expense"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-card-dark has-[:checked]:shadow-sm has-[:checked]:text-income-light text-subtext-light dark:text-subtext-dark text-sm font-medium leading-normal transition-colors">
+<span class="truncate">Income</span>
+<input id="incomeRadio" class="invisible w-0" name="transaction_type" onchange="document.getElementById('transaction-form').classList.remove('border-expense-light'); document.getElementById('transaction-form').classList.add('border-income-light');" type="radio" value="Income"/>
+</label>
+</div>
+</div>
+<!-- Amount and Category Fields -->
+
+<!-- Title Field -->
+<label class="flex flex-col">
+<p class="text-sm font-medium leading-normal pb-2 text-text-light dark:text-text-dark">Title</p>
+<input id="titleInput" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-14 placeholder:text-subtext-light dark:placeholder:text-subtext-dark px-4 py-3 text-sm font-normal leading-normal" placeholder="e.g. Freelance Payment" value=""/>
+</label>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Amount TextField -->
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-sm font-medium leading-normal pb-2 text-text-light dark:text-text-dark">Amount</p>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-4 text-subtext-light dark:text-subtext-dark text-lg">₹</span>
+<input id="amountInput" autofocus="" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-14 placeholder:text-subtext-light dark:placeholder:text-subtext-dark pl-8 pr-4 py-3 text-sm font-normal leading-normal" placeholder="0.00" value=""/>
+</div>
+</label>
+<!-- Category Select Field -->
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-sm font-medium leading-normal pb-2 text-text-light dark:text-text-dark">Category</p>
+<select id="categorySelect" class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-14 placeholder:text-subtext-light dark:placeholder:text-subtext-dark px-4 py-3 text-sm font-normal leading-normal appearance-none bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724px%27%20height=%2724px%27%20fill=%27rgb(76,115,154)%27%20viewBox=%270%200%20256%20256%27%3e%3cpath%20d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e')] bg-no-repeat bg-right-3">
+<option value="">Select a category</option>
+<option value="groceries">Groceries</option>
+<option value="bills">Bills</option>
+<option value="transport">Transport</option>
+<option value="salary">Salary</option>
+<option value="entertainment">Entertainment</option>
+</select>
+</label>
+</div>
+<!-- Date Picker -->
+<label class="flex flex-col">
+<p class="text-sm font-medium leading-normal pb-2 text-text-light dark:text-text-dark">Date</p>
+<input id="dateInput" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark h-14 placeholder:text-subtext-light dark:placeholder:text-subtext-dark px-4 py-3 text-sm font-normal leading-normal" type="date" value=""/>
+</label>
+<!-- Description TextArea -->
+<label class="flex flex-col">
+<p class="text-sm font-medium leading-normal pb-2 text-text-light dark:text-text-dark">Description</p>
+<textarea id="descriptionInput" class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark min-h-28 placeholder:text-subtext-light dark:placeholder:text-subtext-dark p-4 text-sm font-normal leading-normal" placeholder="Add a note... (optional)"></textarea>
+</label>
+<!-- Submit Button -->
+<div class="flex justify-end pt-4">
+<button id="submitBtn" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" type="submit">
+<span class="truncate">Add Transaction</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+window.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const type = (urlParams.get("type") || "").toLowerCase(); // gets ?type=income or ?type=expense
+
+    const expenseRadio = document.getElementById("expenseRadio");
+    const incomeRadio = document.getElementById("incomeRadio");
+
+    // The form which changes border color
+    const formDiv = document.getElementById("transaction-form");
+
+const dateInput = document.getElementById("dateInput");
+if (dateInput && !dateInput.value) {
+    dateInput.value = new Date().toISOString().split("T")[0];
+}
+
+    if (type === "Income") {
+        incomeRadio.checked = true;
+        expenseRadio.checked = false;
+
+        // Update border style
+        formDiv.classList.remove("border-expense-light");
+        formDiv.classList.add("border-income-light");
+    }
+    else if (type === "Expense") {
+        expenseRadio.checked = true;
+        incomeRadio.checked = false;
+
+        // Update border style
+        formDiv.classList.remove("border-income-light");
+        formDiv.classList.add("border-expense-light");
+    }
+
+    // If no type passed → default expense (already checked)
+});
+
+
+document.getElementById("submitBtn").addEventListener("click", async function(e) {
+    e.preventDefault(); // STOP form submit initially
+
+    // Get form fields
+    const title = document.getElementById("titleInput");
+    const amount = document.getElementById("amountInput");
+    const category = document.getElementById("categorySelect");
+    const date = document.getElementById("dateInput");
+    const notes = document.getElementById("descriptionInput");
+    const isIncome = document.getElementById("incomeRadio").checked;
+
+    // Reset old errors
+    clearErrors([title, amount, category, date]);
+
+    let isValid = true;
+
+    // --- Title Validation ---
+    if (title.value.trim() === "") {
+        showError(title, "Please enter a title");
+        isValid = false;
+    }
+
+    // --- Amount Validation ---
+    if (amount.value.trim() === "" || isNaN(amount.value) || parseFloat(amount.value) <= 0) {
+        showError(amount, "Enter a valid amount greater than 0");
+        isValid = false;
+    }
+
+    // --- Category Validation ---
+    if (category.value === "") {
+        showError(category, "Please select a category");
+        isValid = false;
+    }
+
+    // --- Date Validation ---
+    if (date.value.trim() === "") {
+        showError(date, "Please select a date");
+        isValid = false;
+    }
+
+    if (!isValid) {
+        return;
+    }
+
+    const payload = {
+        title: title.value.trim(),
+        category: category.value,
+        amount: parseFloat(amount.value),
+        type: isIncome ? "Income" : "Expense",
+        date: date.value,
+        notes: notes.value.trim()
+    };
+
+    try {
+        const res = await fetch("/transactions/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(payload)
+        });
+
+        const body = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+            alert(body.error || body.message || "Failed to save transaction");
+            return;
+        }
+
+        window.location.href = "/dashboard";
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+
+// --- Function to show error ---
+function showError(inputElement, message) {
+    inputElement.classList.add("border-red-500", "bg-red-50");
+    inputElement.classList.remove("border-border-light");
+
+    let error = document.createElement("p");
+    error.innerText = message;
+    error.className = "mt-1 text-xs text-red-600";
+
+    inputElement.parentNode.appendChild(error);
+}
+
+// --- Function to clear previous errors ---
+function clearErrors(fields) {
+    fields.forEach(field => {
+        field.classList.remove("border-red-500", "bg-red-50");
+        field.classList.add("border-border-light");
+
+        // Remove error <p> if exists
+        const nextEl = field.parentNode.querySelector("p.text-xs.text-red-600");
+        if (nextEl) nextEl.remove();
+    });
+}
+
+// fetch("/transactions/add", {
+//   method: "POST",
+//   headers: {"Content-Type": "application/json"},
+//   body: JSON.stringify(formData)
+// })
+
+
+</script>
+
+<script>
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+    }
+</script>
+<script src="{{ url_for('static', filename='js/langauge.js') }}"></script>
+<script>
+    translatePage();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+        }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "blue-primary": "#4A90E2",
+              "green-success": "#50E3C2",
+              "off-white": "#F9FAFB",
+              "text-dark": "#1F2937",
+              "border-light": "#E5E7EB",
+              "card-light": "#ffffff",
+              "card-dark": "#182431",
+              "border-border-light": "#E5E7EB",
+              "border-border-dark": "#1f2a37",
+              "text-text-light-secondary": "#6B7280",
+              "text-text-dark-secondary": "#9CA3AF"
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-off-white text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex h-full flex-1">
+<!-- side NavBar -->
+<aside class="flex w-64 flex-col bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark p-4">
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 p-2">
+<span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+<h1 class="text-xl font-bold">Finance Tracker</h1>
+</div>
+<div class="flex flex-col gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 mx-auto" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-S79MRotLsuW0fF7uRPU6J1LMSN_j3Uv6pMdkrUh8ELgQxEzEd8NOTV8MST_wmbknznHAk0lkEBu917SJENoqwa_m3_9EdXLJzOoCmRR_H8bE453g-IoK81WZDxB35lu-4Prl17Xn7Bne9700rIFaZnrbDhUV-RjhpDg65R7cGAzWq2l1tVs6msTT0_TiZX9TlLP3avsl53i98nrBgcH4j9VFTP4-3Q8YjpFWbpcf0jpET-KKsLKxYCxuPYSPNTJQrBmG3RcNfw");'></div>
+<div class="flex flex-col text-center">
+<h2 class="text-base font-medium">{{current_user.username}}</h2>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">{{current_user.email}}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/transactions">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-sm font-medium">Transactions</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/budget">
+<span class="material-symbols-outlined">donut_small</span>
+<p class="text-sm font-medium">Budgets</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/report">
+<span class="material-symbols-outlined">assessment</span>
+<p class="text-sm font-medium">Reports</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg bg-primary/20 px-3 py-2 text-primary dark:bg-primary/30" href="/profile">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">person</span>
+<p class="text-sm font-medium leading-normal">Profile</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/settings">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium">Help</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main content -->
+<main class="flex-1 p-8">
+<div class="mx-auto max-w-4xl space-y-8">
+<div>
+<p class="text-4xl font-black leading-tight tracking-tight text-text-dark">Profile Settings</p>
+</div>
+<div class="rounded-xl border border-border-light bg-white">
+<div class="h-24 bg-slate-100 rounded-t-xl"></div>
+<div class="p-6">
+<div class="flex items-end gap-4 -mt-16">
+<div class="group relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-24 border-4 border-white" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAcXdHAsTCJuOTiV7yUrS1TZtFIzBLvncOG5kOLVakRFi3wdff8t5wadiwgrRO31SAMLSM98mIX8X_VzgOn08_SXbAfgPpoQk5Cj2vHYdkACv2MJa1GyondAGmWopplMG55oDAV8rACP-J9Rd6ZnME00DGs1NkZD2ZLoEfw_BPZWmKLtdzYvXQQJRuK9-2gR_f5O28dmtbq6JiwX80mNAJyrWq9kdTA6QJp12Rex2RwEMf_6JhMwgiFOjR0x3RoRacbAy_q0NWT2Q");'></div>
+<div class="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+<span class="material-symbols-outlined text-3xl text-white">edit</span>
+</div>
+</div>
+<div class="flex flex-col pb-2">
+<p class="text-[22px] font-bold leading-tight tracking-tight text-text-dark">{{current_user.username}}</p>
+<p class="text-base font-normal leading-normal text-slate-500">{{current_user.email}}</p>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-border-light bg-white p-6">
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+<div class="lg:col-span-1">
+<h2 class="text-lg font-bold leading-tight text-text-dark">Personal Info</h2>
+<p class="mt-1 text-sm text-slate-500">Update your name and contact details.</p>
+</div>
+<div class="space-y-6 lg:col-span-2">
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+<div>
+<label class="block text-sm font-medium text-text-dark" for="first-name">First Name</label>
+<input class="mt-1 block w-full rounded-lg border-border-light shadow-sm focus:border-blue-primary focus:ring-blue-primary sm:text-sm" id="first-name" type="text" value="{{ current_user.first_name or '' }}"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-dark" for="last-name">Last Name</label>
+<input class="mt-1 block w-full rounded-lg border-border-light shadow-sm focus:border-blue-primary focus:ring-blue-primary sm:text-sm" id="last-name" type="text" value="{{ current_user.last_name or '' }}"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-dark" for="email">Email</label>
+<input class="mt-1 block w-full rounded-lg border-border-light bg-slate-50 text-slate-500 shadow-sm focus:border-blue-primary focus:ring-blue-primary sm:text-sm" id="email" type="email" value="{{ current_user.email }}"/>
+</div>
+<div class="flex justify-end gap-3 pt-2">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-100 text-slate-700 text-sm font-bold leading-normal hover:bg-slate-200">
+<span class="truncate">Cancel</span>
+</button>
+<button id="personalSaveBtn" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-blue-primary text-white text-sm font-bold leading-normal hover:bg-blue-primary/90">
+<span class="truncate">Save Changes</span>
+</button>
+</div>
+</div>
+</div>
+<hr class="my-8 border-border-light"/>
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+<div class="lg:col-span-1">
+<h2 class="text-lg font-bold leading-tight text-text-dark">Password &amp; Security</h2>
+<p class="mt-1 text-sm text-slate-500">Update your password for enhanced security.</p>
+</div>
+<div class="space-y-6 lg:col-span-2">
+<div>
+<label class="block text-sm font-medium text-text-dark" for="current-password">Current Password</label>
+<input class="mt-1 block w-full rounded-lg border-border-light shadow-sm focus:border-blue-primary focus:ring-blue-primary sm:text-sm" id="current-password" type="password"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-dark" for="new-password">New Password</label>
+<input class="mt-1 block w-full rounded-lg border-border-light shadow-sm focus:border-blue-primary focus:ring-blue-primary sm:text-sm" id="new-password" type="password"/>
+<div class="mt-2">
+<div class="flex items-center gap-x-2">
+<div class="h-1.5 flex-1 rounded-full bg-slate-200">
+<div class="h-1.5 w-1/4 rounded-full bg-red-500"></div>
+</div>
+<div class="h-1.5 flex-1 rounded-full bg-slate-200"></div>
+<div class="h-1.5 flex-1 rounded-full bg-slate-200"></div>
+<div class="h-1.5 flex-1 rounded-full bg-slate-200"></div>
+</div>
+<p class="mt-1.5 text-xs text-red-600">Weak password. Must be at least 8 characters.</p>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-dark" for="confirm-password">Confirm New Password</label>
+<input class="mt-1 block w-full rounded-lg border-red-500 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm" id="confirm-password" type="password"/>
+<p class="mt-1 text-xs text-red-600">Passwords do not match.</p>
+</div>
+<div class="flex justify-end gap-3 pt-2">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-100 text-slate-700 text-sm font-bold leading-normal hover:bg-slate-200">
+<span class="truncate">Cancel</span>
+</button>
+<button id="passSaveBtn" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-blue-primary text-white text-sm font-bold leading-normal hover:bg-blue-primary/90 disabled:cursor-not-allowed disabled:opacity-50">
+<span class="truncate">Save Changes</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+<script>
+// ------------------------------
+// HELPER FUNCTIONS
+// ------------------------------
+function showError(input, message) {
+    const errorText = document.createElement("p");
+    errorText.className = "mt-1 text-xs text-red-600";
+    errorText.textContent = message;
+
+    input.classList.add("border-red-500", "bg-red-50");
+    removeExistingError(input);
+    input.parentElement.appendChild(errorText);
+}
+
+function removeExistingError(input) {
+    input.classList.remove("border-red-500", "bg-red-50");
+    const next = input.parentElement.querySelector("p.text-xs.text-red-600");
+    if (next) next.remove();
+}
+
+function isNameValid(name) {
+    return /^[A-Za-z]{2,}$/.test(name);
+}
+
+function isStrongPassword(password) {
+    return (
+        password.length >= 8 &&
+        /[A-Z]/.test(password) &&
+        /[a-z]/.test(password) &&
+        /[0-9]/.test(password) &&
+        /[^A-Za-z0-9]/.test(password)
+    );
+}
+
+// ------------------------------
+// PERSONAL INFO VALIDATION
+// ------------------------------
+const firstName = document.getElementById("first-name");
+const lastName = document.getElementById("last-name");
+const personalSaveBtn = firstName.closest(".space-y-6").querySelector("button.bg-blue-primary");
+
+function validatePersonalInfo() {
+    let valid = true;
+
+    // First Name
+    removeExistingError(firstName);
+    if (!isNameValid(firstName.value.trim())) {
+        showError(firstName, "Enter a valid first name (letters only)");
+        valid = false;
+    }
+
+    // Last Name
+    removeExistingError(lastName);
+    if (!isNameValid(lastName.value.trim())) {
+        showError(lastName, "Enter a valid last name (letters only)");
+        valid = false;
+    }
+
+    personalSaveBtn.disabled = !valid;
+
+    if (valid) {
+        personalSaveBtn.classList.remove("opacity-50", "cursor-not-allowed");
+    } else {
+        personalSaveBtn.classList.add("opacity-50", "cursor-not-allowed");
+    }
+
+    return valid;
+}
+
+// Revalidate on input
+firstName.addEventListener("input", validatePersonalInfo);
+lastName.addEventListener("input", validatePersonalInfo);
+
+// ------------------------------
+// PASSWORD VALIDATION
+// ------------------------------
+const currentPass = document.getElementById("current-password");
+const newPass = document.getElementById("new-password");
+const confirmPass = document.getElementById("confirm-password");
+const passSaveBtn = confirmPass.closest(".flex").querySelector("button.bg-blue-primary");
+
+function validatePasswordSection() {
+    let valid = true;
+
+    // Current password
+    removeExistingError(currentPass);
+    if (currentPass.value.trim() === "") {
+        showError(currentPass, "Enter your current password");
+        valid = false;
+    }
+
+    // New password
+    removeExistingError(newPass);
+    const strengthBars = newPass.parentElement.querySelectorAll(".h-1.5.w-1/4, .h-1.5.w-1/3");
+
+    if (!isStrongPassword(newPass.value)) {
+        showError(newPass, "Password must be 8+ chars incl. uppercase, number & symbol");
+        valid = false;
+    }
+
+    // Confirm password
+    removeExistingError(confirmPass);
+    if (confirmPass.value.trim() === "" || confirmPass.value !== newPass.value) {
+        showError(confirmPass, "Passwords do not match");
+        valid = false;
+    }
+
+    passSaveBtn.disabled = !valid;
+
+    if (valid) {
+        passSaveBtn.classList.remove("opacity-50", "cursor-not-allowed");
+    } else {
+        passSaveBtn.classList.add("opacity-50", "cursor-not-allowed");
+    }
+
+    return valid;
+}
+
+// Revalidate on typing
+currentPass.addEventListener("input", validatePasswordSection);
+newPass.addEventListener("input", validatePasswordSection);
+confirmPass.addEventListener("input", validatePasswordSection);
+
+// ------------------------------
+// ON SUBMIT (PERSONAL INFO)
+// ------------------------------
+personalSaveBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (!validatePersonalInfo()) return;
+
+    fetch("/api/profile/personal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+            first_name: firstName.value.trim(),
+            last_name: lastName.value.trim()
+        })
+    })
+    .then(res => res.json().then(data => ({ ok: res.ok, data })))
+    .then(({ ok, data }) => {
+        if (!ok) {
+            alert(data.error || "Failed to update profile");
+            return;
+        }
+        alert("Profile updated successfully!");
+    })
+    .catch(() => {
+        alert("Server error. Try again later.");
+    });
+});
+
+// ------------------------------
+// ON SUBMIT (PASSWORD UPDATE)
+// ------------------------------
+passSaveBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (validatePasswordSection()) {
+        alert("Password updated successfully!");
+    }
+});
+</script>
+
+<script>
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+    }
+</script>
+<script src="{{ url_for('static', filename='js/langauge.js') }}"></script>
+<script>
+    translatePage();
+</script>
+
+</body></html>

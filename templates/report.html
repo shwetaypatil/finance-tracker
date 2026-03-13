@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Financial Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "accent-green": "#50E3C2",
+              "accent-red": "#F5A623",
+              "text-light": "#0d141b",
+              "text-dark": "#f1f5f9",
+              "border-light": "#cfdbe7",
+              "border-dark": "#334155",
+              "card-light": "#ffffff",
+              "card-dark": "#1e293b",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark p-4">
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 p-2">
+<span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+<h1 class="text-xl font-bold">Finance Tracker</h1>
+</div>
+<div class="flex flex-col gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 mx-auto" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-S79MRotLsuW0fF7uRPU6J1LMSN_j3Uv6pMdkrUh8ELgQxEzEd8NOTV8MST_wmbknznHAk0lkEBu917SJENoqwa_m3_9EdXLJzOoCmRR_H8bE453g-IoK81WZDxB35lu-4Prl17Xn7Bne9700rIFaZnrbDhUV-RjhpDg65R7cGAzWq2l1tVs6msTT0_TiZX9TlLP3avsl53i98nrBgcH4j9VFTP4-3Q8YjpFWbpcf0jpET-KKsLKxYCxuPYSPNTJQrBmG3RcNfw");'></div>
+<div class="flex flex-col text-center">
+<h2 class="text-base font-medium">{{current_user.username}}</h2>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">{{current_user.email}}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/transactions">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-sm font-medium">Transactions</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/budget">
+<span class="material-symbols-outlined">donut_small</span>
+<p class="text-sm font-medium">Budgets</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg bg-primary/20 px-3 py-2 text-primary dark:bg-primary/30" href="/report">
+<span class="material-symbols-outlined">assessment</span>
+<p class="text-sm font-medium">Reports</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/profile">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">person</span>
+<p class="text-sm font-medium leading-normal">Profile</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/settings">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium">Help</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-7xl mx-auto">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-4 mb-6 items-center">
+<p class="text-3xl font-black leading-tight tracking-tight text-text-light dark:text-text-dark">Financial Reports</p>
+</div>
+<!-- Page Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Controls -->
+<div class="lg:col-span-1 flex flex-col gap-8">
+<!-- Period Selector Card -->
+<div class="bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark p-6 shadow-sm">
+<h3 class="text-lg font-semibold mb-4 text-text-light dark:text-text-dark">Report Period</h3>
+<!-- SegmentedButtons -->
+<div class="flex h-10 w-full items-center justify-center rounded-lg bg-slate-200/60 dark:bg-slate-800/60 p-1 mb-4">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-card-light has-[:checked]:dark:bg-card-dark has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary text-sm font-medium leading-normal transition-all duration-200">
+<span class="truncate">Monthly</span>
+<input checked="" class="invisible w-0" name="report_period" type="radio" value="Monthly"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-card-light has-[:checked]:dark:bg-card-dark has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary text-sm font-medium leading-normal transition-all duration-200">
+<span class="truncate">Yearly</span>
+<input class="invisible w-0" name="report_period" type="radio" value="Yearly"/>
+</label>
+</div>
+<!-- TextField / Dropdown -->
+<label class="flex flex-col">
+<p class="text-sm font-medium leading-normal pb-2 text-slate-600 dark:text-slate-300">Select Month</p>
+<select id="reportMonthSelect" class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary dark:focus:border-primary h-12 placeholder:text-slate-400 px-3 text-base font-normal leading-normal">
+</select>
+</label>
+</div>
+<!-- Export Options Card -->
+<div class="bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark p-6 shadow-sm">
+<h3 class="text-lg font-semibold mb-4 text-text-light dark:text-text-dark">Export Report</h3>
+<div class="flex flex-col gap-3">
+<button id="exportPdfBtn" class="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:bg-slate-100 dark:hover:bg-slate-700 font-medium transition-colors">
+<span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                                    Export as PDF
+                                </button>
+<button id="exportCsvBtn" class="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:bg-slate-100 dark:hover:bg-slate-700 font-medium transition-colors">
+<span class="material-symbols-outlined text-lg">description</span>
+                                    Export as CSV
+                                </button>
+<button id="exportExcelBtn" class="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:bg-slate-100 dark:hover:bg-slate-700 font-medium transition-colors">
+<span class="material-symbols-outlined text-lg">grid_on</span>
+                                    Export as Excel
+                                </button>
+</div>
+</div>
+</div>
+<!-- Right Column: Data Visualizations -->
+<div class="lg:col-span-2 flex flex-col gap-8">
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark shadow-sm">
+<p class="text-base font-medium leading-normal text-slate-600 dark:text-slate-300">Total Income</p>
+<p id="totalIncome" class="tracking-tight text-3xl font-bold leading-tight text-text-light dark:text-text-dark">$5,450.00</p>
+<p class="text-sm font-medium leading-normal text-accent-green flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_upward</span>+5.2%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark shadow-sm">
+<p class="text-base font-medium leading-normal text-slate-600 dark:text-slate-300">Total Expense</p>
+<p id="totalExpense" class="tracking-tight text-3xl font-bold leading-tight text-text-light dark:text-text-dark">$3,120.50</p>
+<p class="text-sm font-medium leading-normal text-accent-red flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_upward</span>+8.1%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark shadow-sm">
+<p class="text-base font-medium leading-normal text-slate-600 dark:text-slate-300">Net Balance</p>
+<p id="netBalance" class="tracking-tight text-3xl font-bold leading-tight text-text-light dark:text-text-dark">$2,329.50</p>
+<p class="text-sm font-medium leading-normal text-accent-green flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_upward</span>+2.7%</p>
+</div>
+</div>
+<!-- Expense Breakdown Card (Pie Chart) -->
+<div class="bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark p-6 shadow-sm">
+<h3 class="text-lg font-semibold mb-4 text-text-light dark:text-text-dark">Expense Breakdown</h3>
+<div class="flex flex-col md:flex-row items-center gap-6">
+<div class="w-full md:w-1/2">
+<canvas id="categoryPieChart" class="w-full h-64"></canvas>
+</div>
+<div class="w-full md:w-1/2 grid grid-cols-2 gap-x-4 gap-y-3">
+<div class="flex items-center gap-2 text-sm"><span class="size-3 rounded-full bg-[#F5A623]"></span><span>Groceries</span></div>
+<div class="flex items-center gap-2 text-sm"><span class="size-3 rounded-full bg-[#4A90E2]"></span><span>Bills</span></div>
+<div class="flex items-center gap-2 text-sm"><span class="size-3 rounded-full bg-[#50E3C2]"></span><span>Transport</span></div>
+<div class="flex items-center gap-2 text-sm"><span class="size-3 rounded-full bg-[#7ED321]"></span><span>Salary</span></div>
+<div class="flex items-center gap-2 text-sm"><span class="size-3 rounded-full bg-[#BD10E0]"></span><span>Entertainment</span></div>
+</div>
+</div>
+</div>
+<!-- Daily Expense Trend (Bar Chart) -->
+<div class="bg-card-light dark:bg-card-dark rounded-xl border border-border-light dark:border-border-dark p-6 shadow-sm">
+<h3 class="text-lg font-semibold mb-4 text-text-light dark:text-text-dark">Daily Expense Trend</h3>
+<canvas id="dailyTrendChart" class="w-full h-64"></canvas>
+<p id="dailyTrendEmpty" class="mt-2 text-sm text-slate-500 hidden">No expense data for the selected month.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const currency = "₹";
+
+let categoryChart;
+let dailyChart;
+
+function loadReport(month, year){
+
+fetch(`/api/reports?month=${month}&year=${year}`,{
+credentials:"include"
+})
+.then(res=>res.json())
+.then(data=>{
+
+console.log("Report data:",data)
+
+updateTotals(data)
+renderCategoryChart(data.categories)
+renderDailyChart(data.daily_trend)
+
+})
+
+}
+
+function updateTotals(data){
+
+document.getElementById("totalIncome").innerText =
+currency + (data.total_income || 0)
+
+document.getElementById("totalExpense").innerText =
+currency + (data.total_expense || 0)
+
+document.getElementById("netBalance").innerText =
+currency + (data.net_balance || 0)
+
+}
+
+function renderCategoryChart(categories){
+
+const ctx = document.getElementById("categoryPieChart")
+
+if(categoryChart){
+categoryChart.destroy()
+}
+
+const labels = categories.map(c=>c.category)
+const values = categories.map(c=>c.amount)
+
+categoryChart = new Chart(ctx,{
+type:"pie",
+data:{
+labels:labels,
+datasets:[{
+data:values,
+backgroundColor:[
+"#F5A623",
+"#4A90E2",
+"#50E3C2",
+"#7ED321",
+"#BD10E0",
+"#FF6F61"
+]
+}]
+}
+})
+
+}
+
+function renderDailyChart(data){
+
+const ctx = document.getElementById("dailyTrendChart")
+const emptyEl = document.getElementById("dailyTrendEmpty")
+
+if(dailyChart){
+dailyChart.destroy()
+}
+
+if(!Array.isArray(data) || data.length === 0){
+if(emptyEl){emptyEl.classList.remove("hidden")}
+return
+}
+
+const labels = data.map(d=>d.day)
+const values = data.map(d=>Number(d.amount) || 0)
+const hasData = values.some(v=>v>0)
+if(emptyEl){
+emptyEl.classList.toggle("hidden", hasData)
+}
+
+dailyChart = new Chart(ctx,{
+type:"bar",
+data:{
+labels:labels,
+datasets:[{
+label:"Daily Expense",
+data:values,
+backgroundColor:"#137fec"
+}]
+}
+})
+
+}
+
+function setupMonthSelect(){
+const monthSelect = document.getElementById("reportMonthSelect")
+if(!monthSelect){return}
+const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+monthSelect.innerHTML = ""
+monthNames.forEach((name, index)=>{
+const opt = document.createElement("option")
+opt.value = String(index + 1)
+opt.textContent = name
+monthSelect.appendChild(opt)
+})
+}
+
+function getSelectedPeriod(){
+const periodInputs = document.querySelectorAll('input[name="report_period"]')
+for(const input of periodInputs){
+if(input.checked){
+return String(input.value || "").toLowerCase()
+}
+}
+return "monthly"
+}
+
+function getSelectedMonthYear(){
+const today = new Date()
+const monthSelect = document.getElementById("reportMonthSelect")
+const month = monthSelect && monthSelect.value ? parseInt(monthSelect.value, 10) : (today.getMonth() + 1)
+const year = today.getFullYear()
+return {month, year}
+}
+
+async function saveReportPreferences(){
+const {month, year} = getSelectedMonthYear()
+const period = getSelectedPeriod()
+try{
+await fetch("/api/settings/report",{
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+credentials:"include",
+body: JSON.stringify({ period, month, year })
+})
+}catch(e){}
+}
+
+async function loadReportPreferences(){
+const monthSelect = document.getElementById("reportMonthSelect")
+const periodInputs = document.querySelectorAll('input[name="report_period"]')
+const today = new Date()
+let month = today.getMonth()+1
+let year = today.getFullYear()
+let period = "monthly"
+
+try{
+const res = await fetch("/api/settings/preferences", {credentials:"include"})
+if(res.ok){
+const prefs = await res.json()
+if(prefs.report_month){month = parseInt(prefs.report_month,10)}
+if(prefs.report_year){year = parseInt(prefs.report_year,10)}
+if(prefs.report_period){period = String(prefs.report_period).toLowerCase()}
+}
+}catch(e){}
+
+if(monthSelect){monthSelect.value = String(month)}
+periodInputs.forEach(input=>{
+input.checked = String(input.value || "").toLowerCase() === period
+})
+
+loadReport(month, year)
+}
+
+async function exportReport(format){
+const {month, year} = getSelectedMonthYear()
+const url = `/api/reports/export?format=${format}&month=${month}&year=${year}`
+const res = await fetch(url, {credentials: "include"})
+if(!res.ok){
+let msg = "Export failed"
+try{
+const data = await res.json()
+if(data && data.error){msg = data.error}
+}catch(e){}
+alert(msg)
+return
+}
+const blob = await res.blob()
+const disposition = res.headers.get("Content-Disposition") || ""
+let filename = ""
+const match = disposition.match(/filename=([^;]+)/i)
+if(match && match[1]){
+filename = match[1].replace(/"/g,"")
+}
+if(!filename){
+const ext = format === "excel" ? "xlsx" : format
+filename = `report-${year}-${String(month).padStart(2,"0")}.${ext}`
+}
+const link = document.createElement("a")
+link.href = URL.createObjectURL(blob)
+link.download = filename
+document.body.appendChild(link)
+link.click()
+URL.revokeObjectURL(link.href)
+link.remove()
+}
+
+function bindExportButtons(){
+const pdfBtn = document.getElementById("exportPdfBtn")
+const csvBtn = document.getElementById("exportCsvBtn")
+const excelBtn = document.getElementById("exportExcelBtn")
+if(pdfBtn){pdfBtn.addEventListener("click", ()=>exportReport("pdf"))}
+if(csvBtn){csvBtn.addEventListener("click", ()=>exportReport("csv"))}
+if(excelBtn){excelBtn.addEventListener("click", ()=>exportReport("excel"))}
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+setupMonthSelect()
+loadReportPreferences()
+bindExportButtons()
+
+const monthSelect = document.getElementById("reportMonthSelect")
+monthSelect?.addEventListener("change", ()=>{
+const {month, year} = getSelectedMonthYear()
+loadReport(month, year)
+saveReportPreferences()
+})
+
+document.querySelectorAll('input[name="report_period"]').forEach(input=>{
+input.addEventListener("change", ()=>{
+const {month, year} = getSelectedMonthYear()
+loadReport(month, year)
+saveReportPreferences()
+})
+})
+
+})
+
+</script>
+
+<script>
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+    }
+</script>
+<script src="{{ url_for('static', filename='js/langauge.js') }}"></script>
+<script>
+    translatePage();
+</script>
+
+</body></html>

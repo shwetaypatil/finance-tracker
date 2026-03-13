@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings - Personal Finance App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#4A90E2",
+              "background-light": "#F9FAFB",
+              "background-dark": "#1F2937",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex h-full w-full flex-1">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark p-4">
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 p-2">
+<span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+<h1 class="text-xl font-bold">Finance Tracker</h1>
+</div>
+<div class="flex flex-col gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 mx-auto" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-S79MRotLsuW0fF7uRPU6J1LMSN_j3Uv6pMdkrUh8ELgQxEzEd8NOTV8MST_wmbknznHAk0lkEBu917SJENoqwa_m3_9EdXLJzOoCmRR_H8bE453g-IoK81WZDxB35lu-4Prl17Xn7Bne9700rIFaZnrbDhUV-RjhpDg65R7cGAzWq2l1tVs6msTT0_TiZX9TlLP3avsl53i98nrBgcH4j9VFTP4-3Q8YjpFWbpcf0jpET-KKsLKxYCxuPYSPNTJQrBmG3RcNfw");'></div>
+<div class="flex flex-col text-center">
+<h2 class="text-base font-medium">{{current_user.username}}</h2>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">{{current_user.email}}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<p data-i18n="dashboard" class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/transactions">
+<span class="material-symbols-outlined">receipt_long</span>
+<p data-i18n="transactions" class="text-sm font-medium">Transactions</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/budget">
+<span class="material-symbols-outlined">donut_small</span>
+<p data-i18n="budgets" class="text-sm font-medium">Budgets</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/report">
+<span class="material-symbols-outlined">assessment</span>
+<p data-i18n="reports" class="text-sm font-medium">Reports</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/profile">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">person</span>
+<p data-i18n="profile" class="text-sm font-medium leading-normal">Profile</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg bg-primary/20 px-3 py-2 text-primary dark:bg-primary/30" href="/settings">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<p data-i18n="settings" class="text-sm font-medium">Settings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium">Help</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="w-full flex-1 p-8 md:p-12">
+<div class="mx-auto max-w-4xl">
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<p class="text-[#111827] dark:text-[#D1D5DB] text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Settings</p>
+</div>
+<div class="mt-8 flex flex-col gap-10">
+<section class="flex flex-col">
+<h3 class="text-[#111827] dark:text-[#D1D5DB] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4 border-b border-slate-200 dark:border-slate-800">Appearance</h3>
+<div class="mt-4 flex flex-col divide-y divide-slate-200 dark:divide-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-gray-900/50">
+<div class="flex items-center justify-between gap-4 p-4 min-h-14">
+<div class="flex items-center gap-4">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[#111827] dark:bg-slate-800 dark:text-[#D1D5DB]">
+<span class="material-symbols-outlined">dark_mode</span>
+</div>
+<p class="flex-1 truncate text-base font-normal leading-normal text-[#111827] dark:text-[#D1D5DB]">Dark Mode</p>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-slate-200 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary dark:bg-slate-700">
+<div class="h-full w-[27px] rounded-full bg-white" style="box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px;"></div>
+<input id="themeToggle" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 p-4">
+<div class="flex items-center gap-4">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[#111827] dark:bg-slate-800 dark:text-[#D1D5DB]">
+<span class="material-symbols-outlined">language</span>
+</div>
+<p class="flex-1 truncate text-base font-normal leading-normal text-[#111827] dark:text-[#D1D5DB]">Language</p>
+</div>
+<label class="flex flex-col min-w-40 sm:min-w-60">
+<select id="languageSelect" class="form-select w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-slate-300 bg-background-light text-base font-normal leading-normal text-[#111827] placeholder:text-slate-500 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/30 dark:border-slate-700 dark:bg-background-dark dark:text-[#D1D5DB] dark:placeholder:text-slate-400 dark:focus:border-primary h-11 px-3">
+<option value="en">English</option>
+<option value="hi">Hindi</option>
+<option value="mr">Marathi</option>
+</select>
+</label>
+</div>
+</div>
+</section>
+<section class="flex flex-col">
+<h3 class="text-[#111827] dark:text-[#D1D5DB] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4 border-b border-slate-200 dark:border-slate-800">Data Management</h3>
+<div class="mt-4 flex items-center justify-between gap-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-gray-900/50 p-4">
+<div>
+<p class="font-medium text-[#111827] dark:text-[#D1D5DB]">Data Backup</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Export your transaction history as a CSV file.</p>
+</div>
+<button id="exportBtn" class="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90">
+<span class="material-symbols-outlined text-base">download</span>
+                                Export Data as CSV
+                            </button>
+</div>
+</section>
+<section class="flex flex-col">
+<h3 class="text-red-600 dark:text-red-500 text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4 border-b border-red-200 dark:border-red-900">Danger Zone</h3>
+<div class="mt-4 flex flex-col justify-between gap-4 rounded-lg border border-red-500 bg-red-50 p-4 dark:bg-red-900/20 sm:flex-row sm:items-center">
+<div>
+<p class="font-medium text-red-800 dark:text-red-300">Delete All Transactions</p>
+<p class="text-sm text-red-600 dark:text-red-400">Once you delete your transactions, there is no going back. Please be certain.</p>
+</div>
+<button id="deleteAllBtn" class="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700">
+<span class="material-symbols-outlined text-base">delete_forever</span>
+                                Delete All Transactions
+                            </button>
+</div>
+</section>
+<section class="mt-10 border-t border-slate-200 dark:border-slate-800 pt-10">
+<button id="logoutBtn" class="flex w-full items-center justify-center gap-2 rounded-lg bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 sm:w-auto">
+<span class="material-symbols-outlined">logout</span>
+                        Logout
+                    </button>
+</section>
+</div>
+</div>
+</main>
+</div>
+</div>
+<!-- This is a non-interactive example of a modal for the design concept. -->
+<div aria-labelledby="modal-title" aria-modal="true" class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-black/60 opacity-0 transition-opacity" role="dialog">
+<div class="w-full max-w-md transform rounded-xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-background-dark">
+<h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white" id="modal-title">Delete All Transactions?</h3>
+<div class="mt-2">
+<p class="text-sm text-slate-500 dark:text-slate-400">
+                This action is irreversible. All your transaction data will be permanently erased. To confirm, please type "DELETE" in the box below.
+            </p>
+</div>
+<div class="mt-4">
+<input class="form-input w-full rounded-lg border-slate-300 bg-background-light text-[#111827] focus:border-primary focus:ring-primary/30 dark:border-slate-700 dark:bg-slate-800 dark:text-white" placeholder="DELETE" type="text"/>
+</div>
+<div class="mt-6 flex justify-end gap-3">
+<button class="inline-flex justify-center rounded-lg border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" type="button">
+                Cancel
+            </button>
+<button class="inline-flex justify-center rounded-lg border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50" disabled="" type="button">
+                Delete
+            </button>
+</div>
+</div>
+</div>
+
+<!-- <script>
+// Restore saved theme when page loads
+// Get toggle
+const themeToggle = document.getElementById("themeToggle");
+
+// Load saved theme on page load
+const savedTheme = localStorage.getItem("theme") || "light";
+document.documentElement.classList.toggle("dark", savedTheme === "dark");
+themeToggle.checked = savedTheme === "dark";
+
+// Toggle theme
+themeToggle.addEventListener("change", () => {
+    const theme = themeToggle.checked ? "dark" : "light";
+
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+    updateThemeBackend(theme);
+});
+
+// Update backend (optional but clean)
+async function updateThemeBackend(theme) {
+    await fetch("/api/settings/theme", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ theme })
+    });
+}
+
+
+document.getElementById("languageSelect").addEventListener("change", function () {
+    const lang = this.value;
+
+    localStorage.setItem("language", lang);
+
+    fetch("/api/settings/language", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({language: lang })
+    });
+});
+
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+    window.location.href = `/api/settings/export_csv?user_id=1`;
+});
+
+document.getElementById("deleteAllBtn").addEventListener("click", async () => {
+    const confirmText = prompt("Type DELETE to confirm:");
+    if (confirmText !== "DELETE") return;
+
+    const res = await fetch("/api/settings/delete_all", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: 1 })
+    });
+
+    const data = await res.json();
+    alert(data.message);
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await fetch("/api/logout", { method: "POST", credentials: "include" });
+    window.location.href = "/login";
+});
+</script> -->
+
+<!-- <script src="static/js/language.js"></script> -->
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+<!-- <script>
+    translatePage();
+</script> -->
+
+</body></html>

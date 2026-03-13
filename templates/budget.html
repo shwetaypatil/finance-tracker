@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Budget Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "surface-light": "#ffffff",
+              "surface-dark": "#192734",
+              "text-light": "#0d141b",
+              "text-dark": "#e0e7ee",
+              "text-secondary-light": "#4c739a",
+              "text-secondary-dark": "#94a3b8",
+              "border-light": "#cfdbe7",
+              "border-dark": "#334155"
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark p-4">
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 p-2">
+<span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+<h1 class="text-xl font-bold">Finance Tracker</h1>
+</div>
+<div class="flex flex-col gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 mx-auto" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-S79MRotLsuW0fF7uRPU6J1LMSN_j3Uv6pMdkrUh8ELgQxEzEd8NOTV8MST_wmbknznHAk0lkEBu917SJENoqwa_m3_9EdXLJzOoCmRR_H8bE453g-IoK81WZDxB35lu-4Prl17Xn7Bne9700rIFaZnrbDhUV-RjhpDg65R7cGAzWq2l1tVs6msTT0_TiZX9TlLP3avsl53i98nrBgcH4j9VFTP4-3Q8YjpFWbpcf0jpET-KKsLKxYCxuPYSPNTJQrBmG3RcNfw");'></div>
+<div class="flex flex-col text-center">
+<h2 class="text-base font-medium">{{current_user.username}}</h2>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">{{current_user.email}}</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/transactions">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-sm font-medium">Transactions</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg bg-primary/20 px-3 py-2 text-primary dark:bg-primary/30" href="/budget">
+<span class="material-symbols-outlined">donut_small</span>
+<p class="text-sm font-medium">Budgets</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/report">
+<span class="material-symbols-outlined">assessment</span>
+<p class="text-sm font-medium">Reports</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/profile">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">person</span>
+<p class="text-sm font-medium leading-normal">Profile</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="/settings">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium">Help</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 lg:p-10">
+<div class="max-w-6xl mx-auto">
+<!-- PageHeading -->
+<header class="flex flex-wrap justify-between gap-3 mb-8">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-text-light dark:text-text-dark text-3xl font-black leading-tight tracking-[-0.033em]">Monthly Budget Management</p>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-base font-normal leading-normal">Set your budget and track your spending for the month.</p>
+</div>
+</header>
+<!-- Alert Banners -->
+<div class="space-y-4 mb-8">
+<!-- Warning Alert -->
+<div id="warningAlert" class="flex items-start gap-3 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-yellow-700 dark:text-yellow-300">
+<span class="material-symbols-outlined mt-0.5">warning</span>
+<div class="flex-1">
+<p class="font-medium text-sm">Heads up! You've used over 80% of your monthly budget.</p>
+</div>
+<button onclick="hideAlert('warningAlert')" class="p-1 -m-1 rounded-full hover:bg-yellow-500/20">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<!-- Danger Alert -->
+<div id="dangerAlert" class="flex items-start gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-700 dark:text-red-300">
+<span class="material-symbols-outlined mt-0.5">error</span>
+<div class="flex-1">
+<p class="font-medium text-sm">Alert! You have exceeded your monthly budget by $120.50.</p>
+</div>
+<button onclick="hideAlert('dangerAlert')" class="p-1 -m-1 rounded-full hover:bg-red-500/20">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<!-- Success Alert -->
+<div id="successAlert" class="flex items-start gap-3 p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-700 dark:text-green-300">
+<span class="material-symbols-outlined mt-0.5">error</span>
+<div class="flex-1">
+<p class="font-medium text-sm">Budget saved successfully!</p>
+</div>
+<button onclick="hideAlert('successAlert')" class="p-1 -m-1 rounded-full hover:bg-green-500/20">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Budget Overview Section -->
+<section class="space-y-10">
+<!-- Stat Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark">
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium">Total Monthly Budget</p>
+<p id="totalBudget" class="text-text-light dark:text-text-dark text-4xl font-bold mt-2 tracking-tight">$2,500.00</p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-center justify-between">
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium">Amount Used</p>
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark text-base cursor-help" title="Sum of all transactions this month">info</span>
+</div>
+<p id="amountUsed" class="text-text-light dark:text-text-dark text-4xl font-bold mt-2 tracking-tight">$2,120.50</p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark">
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium">Amount Remaining</p>
+<p id="amountRemaining" class="text-green-600 dark:text-green-400 text-4xl font-bold mt-2 tracking-tight">$379.50</p>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark">
+<div id="progressBar" class="flex justify-between items-baseline mb-2">
+<h3 class="text-text-light dark:text-text-dark text-base font-medium">Monthly Spending</h3>
+<p id="budgetPercentText" class="text-text-secondary-light dark:text-text-secondary-dark text-sm">0% Used</p>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4">
+<!-- Progress: Red for >80% -->
+<div id="budgetProgressBar" class="bg-red-500 h-4 rounded-full" style="width: 0%"></div>
+</div>
+</div>
+</section>
+<!-- Budget Input Section -->
+<section class="mt-10 bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark">
+<!-- SectionHeader -->
+<h2 class="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-[-0.015em] mb-4">Set Your Monthly Budget</h2>
+<div class="flex flex-col sm:flex-row items-end gap-4">
+<!-- TextField -->
+<div class="relative w-full sm:w-auto sm:flex-1">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+<span class="text-text-secondary-light dark:text-text-secondary-dark text-base">₹</span>
+</div>
+<input id="budgetInput" class="form-input flex w-full min-w-0 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary/50 h-12 placeholder:text-text-secondary-light/70 pl-8 pr-4 py-2.5 text-base font-normal leading-normal" placeholder="Enter budget amount" type="number"/>
+</div>
+<!-- SingleButton -->
+<button id="saveBudgetBtn" class="flex w-full sm:w-auto min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+<span class="truncate">Save Budget</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+</div>
+
+
+<script>
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+    }
+</script>
+<script src="{{ url_for('static', filename='js/langauge.js') }}"></script>
+<script src="{{ url_for('static', filename='js/budget.js') }}"></script>
+
+<script>
+    translatePage();
+</script>
+
+</body></html>
