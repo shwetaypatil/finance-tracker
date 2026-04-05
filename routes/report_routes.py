@@ -97,6 +97,7 @@ from datetime import datetime
 from io import StringIO, BytesIO
 import csv
 import calendar
+from psycopg2.extras import RealDictCursor
 from db import get_db
 
 report_bp = Blueprint("report", __name__)
@@ -122,14 +123,14 @@ def _parse_month_year(args):
 
 def _build_report(user_id, month, year):
     conn = get_db()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     # TOTAL INCOME
     cursor.execute("""
         SELECT SUM(amount) AS total
         FROM transactions
         WHERE user_id=%s AND LOWER(type)='income'
-        AND MONTH(date)=%s AND YEAR(date)=%s
+        AND EXTRACT(MONTH FROM date)=%s AND EXTRACT(YEAR FROM date)=%s
     """, (user_id, month, year))
     row = cursor.fetchone()
     total_income = row["total"] if row and row["total"] else 0
@@ -139,7 +140,7 @@ def _build_report(user_id, month, year):
         SELECT SUM(amount) AS total
         FROM transactions
         WHERE user_id=%s AND LOWER(type)='expense'
-        AND MONTH(date)=%s AND YEAR(date)=%s
+        AND EXTRACT(MONTH FROM date)=%s AND EXTRACT(YEAR FROM date)=%s
     """, (user_id, month, year))
     row = cursor.fetchone()
     total_expense = row["total"] if row and row["total"] else 0
@@ -149,18 +150,18 @@ def _build_report(user_id, month, year):
         SELECT category, SUM(amount) AS amount
         FROM transactions
         WHERE user_id=%s AND LOWER(type)='expense'
-        AND MONTH(date)=%s AND YEAR(date)=%s
+        AND EXTRACT(MONTH FROM date)=%s AND EXTRACT(YEAR FROM date)=%s
         GROUP BY category
     """, (user_id, month, year))
     categories = cursor.fetchall()
 
     # DAILY TREND
     cursor.execute("""
-        SELECT DAY(date) AS day, SUM(amount) AS amount
+        SELECT EXTRACT(DAY FROM date) AS day, SUM(amount) AS amount
         FROM transactions
         WHERE user_id=%s AND LOWER(type)='expense'
-        AND MONTH(date)=%s AND YEAR(date)=%s
-        GROUP BY day
+        AND EXTRACT(MONTH FROM date)=%s AND EXTRACT(YEAR FROM date)=%s
+        GROUP BY EXTRACT(DAY FROM date)
         ORDER BY day
     """, (user_id, month, year))
     daily_rows = cursor.fetchall()

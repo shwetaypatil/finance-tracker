@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify, session
 import bcrypt
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from db import get_db
-import mysql.connector
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -33,9 +34,10 @@ def signup():
         cursor.execute("""
             INSERT INTO users (username, first_name, last_name, email, password)
             VALUES (%s, %s, %s, %s, %s)
+            RETURNING id
         """, (username, first_name, last_name, email, hashed))
 
-        user_id = cursor.lastrowid
+        user_id = cursor.fetchone()[0]
 
         # Create default settings
         cursor.execute("""
@@ -46,8 +48,9 @@ def signup():
         conn.commit()
         return jsonify({"success": True})
 
-    except mysql.connector.Error as err:
-        if err.errno == 1062:
+    except psycopg2.Error as err:
+        conn.rollback()
+        if getattr(err, "pgcode", None) == "23505":
             return jsonify({"success": False, "msg": "User already exists"})
         return jsonify({"success": False, "msg": str(err)})
 
@@ -66,7 +69,7 @@ def login():
     conn = get_db()
     if conn is None:
         return jsonify({"success": False, "msg": "Database connection failed"}), 500
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
     user = cursor.fetchone()

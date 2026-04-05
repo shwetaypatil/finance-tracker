@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, session
+from psycopg2.extras import RealDictCursor
 from db import get_db
 
 transactions_bp = Blueprint("transactions", __name__)
@@ -31,7 +32,7 @@ def get_transactions():
     if conn is None:
         return jsonify({"error": "Database connection failed"}), 500
 
-    cur = conn.cursor(dictionary=True)
+    cur = conn.cursor(cursor_factory=RealDictCursor)
 
     base_query = "FROM transactions WHERE user_id = %s"
     params = [user_id]
@@ -71,8 +72,8 @@ def get_transactions():
             SUM(CASE WHEN LOWER(type)='expense' THEN amount ELSE 0 END) AS expense
         FROM transactions
         WHERE user_id = %s
-          AND MONTH(date) = MONTH(CURDATE())
-          AND YEAR(date) = YEAR(CURDATE())
+          AND EXTRACT(MONTH FROM date) = EXTRACT(MONTH FROM CURRENT_DATE)
+          AND EXTRACT(YEAR FROM date) = EXTRACT(YEAR FROM CURRENT_DATE)
     """, (user_id,))
     summary_row = cur.fetchone() or {}
     income = float(summary_row.get("income") or 0)
@@ -150,7 +151,7 @@ def get_single_transaction(id):
     if conn is None:
         return jsonify({"error": "Database connection failed"}), 500
 
-    cur = conn.cursor(dictionary=True)
+    cur = conn.cursor(cursor_factory=RealDictCursor)
 
     cur.execute(
         "SELECT * FROM transactions WHERE id = %s AND user_id = %s",

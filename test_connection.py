@@ -4,7 +4,7 @@ connection = get_db()
 
 if connection:
     cursor = connection.cursor()
-    cursor.execute("SELECT DATABASE();")
+    cursor.execute("SELECT current_database();")
     result = cursor.fetchone()
     print("Connected to database:", result[0])
 

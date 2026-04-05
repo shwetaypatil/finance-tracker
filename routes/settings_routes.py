@@ -2,7 +2,8 @@ from flask import Blueprint, request, jsonify, send_file, session
 import csv
 import io
 from datetime import datetime
-import mysql.connector
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from db import get_db
 
 settings_bp = Blueprint("settings", __name__)
@@ -69,7 +70,7 @@ def get_preferences():
     conn = get_db()
     if conn is None:
         return jsonify({"error": "Database connection failed"}), 500
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     try:
         cursor.execute(
@@ -82,7 +83,7 @@ def get_preferences():
             if row.get(key) is not None:
                 prefs[key] = row.get(key)
         return jsonify(prefs)
-    except mysql.connector.Error:
+    except psycopg2.Error:
         # Fallback if report_* columns are missing
         try:
             cursor.execute(
@@ -96,7 +97,7 @@ def get_preferences():
             if row.get("language") is not None:
                 prefs["language"] = row.get("language")
             return jsonify(prefs)
-        except mysql.connector.Error:
+        except psycopg2.Error:
             return jsonify(defaults)
     finally:
         cursor.close()
@@ -144,7 +145,7 @@ def update_report_preferences():
         )
         conn.commit()
         return jsonify({"status": "success"})
-    except mysql.connector.Error:
+    except psycopg2.Error:
         return jsonify({"error": "Report preference columns missing in users table"}), 501
     finally:
         cursor.close()
@@ -163,7 +164,7 @@ def export_csv():
     conn = get_db()
     if conn is None:
         return jsonify({"error": "Database connection failed"}), 500
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     cursor.execute("""
         SELECT title, category, amount, date, type

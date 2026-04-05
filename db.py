@@ -1,27 +1,13 @@
-# import mysql.connector
-
-# def get_db():
-#     connection = mysql.connector.connect(
-#         host="localhost",
-#         user="root",
-#         password="",         # default XAMPP
-#         database="finance_tracker"
-#     )
-#     return connection
-
-
-import mysql.connector
+import psycopg2
+import os
 
 def get_db():
     try:
-        connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",  # default XAMPP password is empty
-            database="finance_tracker"
+        connection = psycopg2.connect(
+            os.environ.get("DATABASE_URL")
         )
         print("Database connection successful!")
         return connection
-    except mysql.connector.Error as err:
-        print("Error connecting to MySQL:", err)
+    except Exception as err:
+        print("Error connecting to PostgreSQL:", err)
         return None

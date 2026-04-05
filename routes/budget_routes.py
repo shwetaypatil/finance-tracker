@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, session
-from db import get_db
 from datetime import datetime
+from psycopg2.extras import RealDictCursor
+from db import get_db
 
 budget_bp = Blueprint("budget", __name__)
 
@@ -28,7 +29,7 @@ def save_budget():
     db = get_db()
     if db is None:
         return jsonify({"error": "Database connection failed"}), 500
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor(cursor_factory=RealDictCursor)
     try:
         cursor.execute(
             "SELECT id FROM budget WHERE user_id=%s AND month=%s AND year=%s",
@@ -69,7 +70,7 @@ def get_current_budget():
     db = get_db()
     if db is None:
         return jsonify({"error": "Database connection failed"}), 500
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor(cursor_factory=RealDictCursor)
     try:
         # Get user's total budget
         cursor.execute(
@@ -93,7 +94,7 @@ def get_current_budget():
             """SELECT SUM(amount) AS total 
                FROM transactions 
                WHERE user_id = %s AND type='Expense'
-               AND MONTH(date) = %s AND YEAR(date) = %s""",
+               AND EXTRACT(MONTH FROM date) = %s AND EXTRACT(YEAR FROM date) = %s""",
             (user_id, month, year)
         )
         result = cursor.fetchone()

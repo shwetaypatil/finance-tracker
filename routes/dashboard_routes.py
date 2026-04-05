@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, session
 from datetime import date
+from psycopg2.extras import RealDictCursor
 from db import get_db
 
 dashboard_bp = Blueprint("dashboard", __name__)
@@ -14,7 +15,7 @@ def dashboard_data():
     conn = get_db()
     if conn is None:
         return jsonify({"error": "Database connection failed"}), 500
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     # 1. Total Income
     cursor.execute("""
@@ -37,7 +38,9 @@ def dashboard_data():
     cursor.execute("""
         SELECT amount
         FROM budget
-        WHERE user_id=%s AND month=MONTH(CURDATE()) AND year=YEAR(CURDATE())
+        WHERE user_id=%s
+          AND month=EXTRACT(MONTH FROM CURRENT_DATE)
+          AND year=EXTRACT(YEAR FROM CURRENT_DATE)
     """, (user_id,))
     result = cursor.fetchone()
     budget = result["amount"] if result else 0
@@ -48,8 +51,8 @@ def dashboard_data():
         FROM transactions
         WHERE user_id=%s
         AND type='Expense'
-        AND MONTH(date)=MONTH(CURDATE())
-        AND YEAR(date)=YEAR(CURDATE())
+        AND EXTRACT(MONTH FROM date)=EXTRACT(MONTH FROM CURRENT_DATE)
+        AND EXTRACT(YEAR FROM date)=EXTRACT(YEAR FROM CURRENT_DATE)
     """, (user_id,))
     spent = cursor.fetchone()["spent"] or 0
 
@@ -89,20 +92,20 @@ def dashboard_charts():
     if conn is None:
         return jsonify({"error": "Database connection failed"}), 500
 
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     # Monthly totals for every month of the current year
     today = date.today()
     current_year = today.year
 
     cursor.execute("""
-        SELECT MONTH(date) AS month,
+        SELECT EXTRACT(MONTH FROM date) AS month,
                type,
                SUM(amount) AS total
         FROM transactions
         WHERE user_id=%s
-          AND YEAR(date)=%s
-        GROUP BY month, type
+          AND EXTRACT(YEAR FROM date)=%s
+        GROUP BY EXTRACT(MONTH FROM date), type
         ORDER BY month
     """, (user_id, current_year))
     monthly_rows = cursor.fetchall()
@@ -131,8 +134,8 @@ def dashboard_charts():
         FROM transactions
         WHERE user_id=%s
           AND type='Expense'
-          AND MONTH(date)=MONTH(CURDATE())
-          AND YEAR(date)=YEAR(CURDATE())
+          AND EXTRACT(MONTH FROM date)=EXTRACT(MONTH FROM CURRENT_DATE)
+          AND EXTRACT(YEAR FROM date)=EXTRACT(YEAR FROM CURRENT_DATE)
         GROUP BY category
         ORDER BY total DESC
         LIMIT 6
