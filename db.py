@@ -4,7 +4,8 @@ import os
 def get_db():
     try:
         connection = psycopg2.connect(
-            os.environ.get("DATABASE_URL")
+            os.environ.get("DATABASE_URL"),
+            sslmode="require"
         )
         print("Database connection successful!")
         return connection
