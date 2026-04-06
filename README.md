@@ -78,20 +78,6 @@ SECRET_KEY=your_secret_key
 ```
 python app.py
 ```
-
----
-
-## 📸 Screenshots
-
-(Add screenshots of your app here)
-
----
-
-## ⚠️ Note
-
-* Google Login button is currently UI-only (not implemented in backend).
-* Free hosting may cause slight delay due to cold start.
-
 ---
 
 ## 👩‍💻 Author
