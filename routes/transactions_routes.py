@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, session
 from psycopg2.extras import RealDictCursor
-from db import get_db
+from db import get_db, put_db
 
 transactions_bp = Blueprint("transactions", __name__)
 
@@ -80,7 +80,7 @@ def get_transactions():
     expense = float(summary_row.get("expense") or 0)
 
     cur.close()
-    conn.close()
+    put_db(conn)
 
     return jsonify({
         "transactions": rows,
@@ -134,7 +134,7 @@ def add_transaction():
 
     conn.commit()
     cur.close()
-    conn.close()
+    put_db(conn)
 
     return jsonify({"message": "Transaction added successfully!"})
 
@@ -160,7 +160,7 @@ def get_single_transaction(id):
     row = cur.fetchone()
 
     cur.close()
-    conn.close()
+    put_db(conn)
 
     return jsonify(row)
 
@@ -205,7 +205,7 @@ def update_transaction(id):
 
     conn.commit()
     cur.close()
-    conn.close()
+    put_db(conn)
 
     return jsonify({"message": "Transaction updated!"})
 
@@ -231,6 +231,6 @@ def delete_transaction(id):
     conn.commit()
 
     cur.close()
-    conn.close()
+    put_db(conn)
 
     return jsonify({"message": "Transaction deleted successfully!"})

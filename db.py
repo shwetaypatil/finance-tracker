@@ -1,18 +1,3 @@
-# import psycopg2
-# import os
-
-# def get_db():
-#     try:
-#         connection = psycopg2.connect(
-#             os.environ.get("DATABASE_URL"),
-#             sslmode="require"
-#         )
-#         print("Database connection successful!")
-#         return connection
-#     except Exception as err:
-#         print("Error connecting to PostgreSQL:", err)
-#         return None
-
 from psycopg2 import pool
 import os
 

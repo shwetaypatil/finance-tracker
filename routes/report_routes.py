@@ -98,7 +98,7 @@ from io import StringIO, BytesIO
 import csv
 import calendar
 from psycopg2.extras import RealDictCursor
-from db import get_db
+from db import get_db, put_db
 
 report_bp = Blueprint("report", __name__)
 
@@ -174,7 +174,7 @@ def _build_report(user_id, month, year):
             daily_map[day] = float(row.get("amount") or 0)
 
     cursor.close()
-    conn.close()
+    put_db(conn)
 
     daily = [{"day": day, "amount": daily_map.get(day, 0)} for day in range(1, days_in_month + 1)]
 

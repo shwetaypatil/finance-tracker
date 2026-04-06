@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, session
 from datetime import datetime
 from psycopg2.extras import RealDictCursor
-from db import get_db
+from db import get_db, put_db
 
 budget_bp = Blueprint("budget", __name__)
 
@@ -52,7 +52,7 @@ def save_budget():
         db.commit()
     finally:
         cursor.close()
-        db.close()
+        put_db(db)
 
     return jsonify({"success": True})
 
@@ -111,4 +111,4 @@ def get_current_budget():
         })
     finally:
         cursor.close()
-        db.close()
+        put_db(db)

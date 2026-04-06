@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from db import get_db
+from db import get_db, put_db
 
 profile_bp = Blueprint("profile", __name__)
 
@@ -36,6 +36,6 @@ def update_personal_info():
     )
     conn.commit()
     cursor.close()
-    conn.close()
+    put_db(conn)
 
     return jsonify({"success": True})

@@ -1,4 +1,4 @@
-from db import get_db
+from db import get_db, put_db
 
 connection = get_db()
 
@@ -9,6 +9,6 @@ if connection:
     print("Connected to database:", result[0])
 
     cursor.close()
-    connection.close()
+    put_db(connection)
 else:
     print("Connection failed.")

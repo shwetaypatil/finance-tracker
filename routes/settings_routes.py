@@ -4,7 +4,7 @@ import io
 from datetime import datetime
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from db import get_db
+from db import get_db, put_db
 
 settings_bp = Blueprint("settings", __name__)
 
@@ -23,7 +23,7 @@ def update_theme():
 
     cursor.execute("UPDATE users SET theme = %s WHERE id = %s", (theme, user_id))
     conn.commit()
-    conn.close()
+    put_db(conn)
 
     return jsonify({"status": "success", "message": "Theme updated"})
 
@@ -44,7 +44,7 @@ def update_language():
     cursor = conn.cursor()
     cursor.execute("UPDATE users SET language = %s WHERE id = %s", (language, user_id))
     conn.commit()
-    conn.close()
+    put_db(conn)
 
     return jsonify({"status": "success", "message": "Language updated"})
 
@@ -101,7 +101,7 @@ def get_preferences():
             return jsonify(defaults)
     finally:
         cursor.close()
-        conn.close()
+        put_db(conn)
 
 
 # -----------------------------
@@ -149,7 +149,7 @@ def update_report_preferences():
         return jsonify({"error": "Report preference columns missing in users table"}), 501
     finally:
         cursor.close()
-        conn.close()
+        put_db(conn)
 
 
 # -----------------------------
@@ -174,7 +174,7 @@ def export_csv():
     """, (user_id, ))
 
     rows = cursor.fetchall()
-    conn.close()
+    put_db(conn)
 
     # Convert to CSV (memory)
     output = io.StringIO()
@@ -210,7 +210,7 @@ def delete_all_transactions():
 
     cursor.execute("DELETE FROM transactions WHERE user_id = %s", (user_id,))
     conn.commit()
-    conn.close()
+    put_db(conn)
 
     return jsonify({"status": "success", "message": "All transactions deleted."})
 

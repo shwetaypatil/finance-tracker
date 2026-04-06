@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, session
 from datetime import date
 from psycopg2.extras import RealDictCursor
-from db import get_db
+from db import get_db, put_db
 
 dashboard_bp = Blueprint("dashboard", __name__)
 
@@ -69,7 +69,7 @@ def dashboard_data():
     recent = cursor.fetchall()
 
     cursor.close()
-    conn.close()
+    put_db(conn)
 
     return jsonify({
         "total_income": total_income,
@@ -153,7 +153,7 @@ def dashboard_charts():
         })
 
     cursor.close()
-    conn.close()
+    put_db(conn)
 
     return jsonify({
         "months": labels,

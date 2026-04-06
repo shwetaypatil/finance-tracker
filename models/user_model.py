@@ -1,4 +1,4 @@
-from db import get_db
+from db import get_db, put_db
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
@@ -20,5 +20,5 @@ def get_user_by_id(user_id):
         )
         user = cursor.fetchone()
     cursor.close()
-    connection.close()
+    put_db(connection)
     return user

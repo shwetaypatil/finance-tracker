@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, session
 import bcrypt
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from db import get_db
+from db import get_db, put_db
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -56,7 +56,7 @@ def signup():
 
     finally:
         cursor.close()
-        conn.close()
+        put_db(conn)
 
 
 # ---------------- LOGIN ----------------
@@ -75,7 +75,7 @@ def login():
     user = cursor.fetchone()
 
     cursor.close()
-    conn.close()
+    put_db(conn)
 
     if not user:
         return jsonify({"success": False, "msg": "User not found"})
