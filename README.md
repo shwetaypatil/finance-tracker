@@ -1,38 +1,110 @@
-# Personal Finance Tracker
+# 💰 Personal Finance Tracker
 
-Flask-based personal finance tracker with PostgreSQL as the database.
+A web-based application to manage personal finances by tracking income, expenses, and budgets.
 
-## Prerequisites
-- Python 3.10+
-- PostgreSQL 13+
+---
 
-## Setup
-1. Create a virtual environment and install dependencies:
+## 🌟 Features
+
+* 👤 User authentication (Signup/Login)
+* 💸 Track income and expenses
+* 📊 Categorize transactions
+* 📅 Monthly budget management
+* ⚙️ User settings (theme, language)
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend:** HTML, CSS, JavaScript
+* **Backend:** Python (Flask)
+* **Database:** PostgreSQL (Supabase)
+* **Deployment:** Render
+
+---
+
+## 🚀 Live Demo
+
+👉 https://finance-tracker-do1i.onrender.com
+
+---
+
+## 📂 Project Structure
+
 ```
-python -m venv .venv
-.venv\Scripts\activate
+finance-tracker/
+│── app.py
+│── db.py
+│── models/
+│── templates/
+│── static/
+│── requirements.txt
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone the repository
+
+```
+git clone https://github.com/shwetaypatil/finance-tracker
+cd finance-tracker
+```
+
+---
+
+### 2️⃣ Install dependencies
+
+```
 pip install -r requirements.txt
 ```
 
-2. Create a PostgreSQL database (example name: `finance_tracker`).
+---
 
-3. Set the `DATABASE_URL` environment variable:
+### 3️⃣ Set environment variables
+
+Create a `.env` file and add:
+
 ```
-set DATABASE_URL=postgresql://<user>:<password>@<host>:<port>/<db_name>
+DATABASE_URL=your_supabase_database_url
+SECRET_KEY=your_secret_key
 ```
 
-4. Initialize the schema and seed data:
-```
-psql -d finance_tracker -f finance_tracker.sql
-```
+---
 
-5. Run the app:
+### 4️⃣ Run the application
+
 ```
 python app.py
 ```
 
-## Notes
-- `db.py` uses `DATABASE_URL` and connects with `psycopg2`.
-- The schema and seed data live in `finance_tracker.sql`.
-- If you change the database, re-run the SQL file to recreate tables.
+---
 
+## 📸 Screenshots
+
+(Add screenshots of your app here)
+
+---
+
+## ⚠️ Note
+
+* Google Login button is currently UI-only (not implemented in backend).
+* Free hosting may cause slight delay due to cold start.
+
+---
+
+## 👩‍💻 Author
+
+**Shweta Patil**
+Computer Science Engineering Student
+
+---
+
+## ⭐ Future Improvements
+
+* Google Authentication
+* Advanced analytics dashboard
+* Mobile-friendly UI
+
+---
