@@ -23,7 +23,7 @@ def signup():
     if password != confirm:
         return jsonify({"success": False, "msg": "Passwords do not match"})
 
-    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode("utf-8")
 
     conn = get_db()
     if conn is None:
@@ -80,11 +80,32 @@ def login():
     if not user:
         return jsonify({"success": False, "msg": "User not found"})
 
-    stored_password = user["password"]
-    if isinstance(stored_password, str):
-        stored_password = stored_password.encode()
+    stored_password = user.get("password")
+    if stored_password is None:
+        return jsonify({"success": False, "msg": "Invalid password"})
 
-    if not bcrypt.checkpw(password.encode(), stored_password):
+    if isinstance(stored_password, memoryview):
+        stored_password = stored_password.tobytes()
+
+    if isinstance(stored_password, str):
+        # Handle bytea hex text like "\x..." if it slipped in
+        if stored_password.startswith("\\x"):
+            try:
+                stored_password = bytes.fromhex(stored_password[2:])
+            except ValueError:
+                stored_password = stored_password.encode()
+        else:
+            stored_password = stored_password.encode()
+
+    if not isinstance(stored_password, (bytes, bytearray)):
+        return jsonify({"success": False, "msg": "Invalid password"})
+
+    try:
+        valid = bcrypt.checkpw(password.encode(), bytes(stored_password))
+    except ValueError:
+        return jsonify({"success": False, "msg": "Invalid password"})
+
+    if not valid:
         return jsonify({"success": False, "msg": "Invalid password"})
 
     session["user_id"] = user["id"]
