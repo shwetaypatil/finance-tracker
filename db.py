@@ -1,9 +1,17 @@
 from psycopg2 import pool
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is missing from environment variables")
 
 db_pool = pool.SimpleConnectionPool(
     1, 10,
-    os.environ.get("DATABASE_URL"),
+    DATABASE_URL,
     sslmode="require"
 )
 

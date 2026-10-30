@@ -2,6 +2,7 @@ from flask import Flask, jsonify, session, render_template, request, redirect, u
 from flask_cors import CORS
 from models.user_model import get_user_by_id
 import os
+from dotenv import load_dotenv
 
 from routes.dashboard_routes import dashboard_bp
 from routes.transactions_routes import transactions_bp
@@ -10,6 +11,8 @@ from routes.settings_routes import settings_bp
 from routes.auth_routes import auth_bp
 from routes.report_routes import report_bp
 from routes.profile_routes import profile_bp
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') # moved to .env
