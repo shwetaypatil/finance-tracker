@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, session, render_template, request, redirect, url_for
 from flask_cors import CORS
 from models.user_model import get_user_by_id
+import os
 
 from routes.dashboard_routes import dashboard_bp
 from routes.transactions_routes import transactions_bp
@@ -11,7 +12,7 @@ from routes.report_routes import report_bp
 from routes.profile_routes import profile_bp
 
 app = Flask(__name__)
-app.secret_key = "super_secret_key_123"   # move to .env later
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') # moved to .env
 CORS(app, supports_credentials=True)
 
 # -----------------------------
